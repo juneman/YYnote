@@ -32,6 +32,7 @@ public class ClockAlertActivity extends Activity implements OnClickListener, OnD
     private static final int SNIPPET_PREW_MAX_LEN = 60;
     MediaPlayer mPlayer;
     
+    
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -62,7 +63,7 @@ public class ClockAlertActivity extends Activity implements OnClickListener, OnD
 
         mPlayer = new MediaPlayer();
         this.showActionDialog();
-        this.playAlarmSound();
+       // this.playAlarmSound();
         
     }
     private String getContentById(int id){
@@ -108,7 +109,7 @@ public class ClockAlertActivity extends Activity implements OnClickListener, OnD
         }
     }
     private void showActionDialog() {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+    	AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         dialog.setTitle(R.string.app_name);
         dialog.setMessage(mSnippet);
         
@@ -116,7 +117,7 @@ public class ClockAlertActivity extends Activity implements OnClickListener, OnD
         if (isScreenOn()) {
             dialog.setNegativeButton(R.string.clock_dialog_known, null);
         }
-        dialog.show();
+        dialog.show().setOnDismissListener(this);
     }
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
@@ -143,4 +144,5 @@ public class ClockAlertActivity extends Activity implements OnClickListener, OnD
             mPlayer = null;
         }
     }
+  
 }

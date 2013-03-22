@@ -179,7 +179,7 @@ public class NoteItemModel {
 	}
 
 	public boolean isClock(){
-		return this.mClockModel == null ? false:true;
+		return this.mClockId < 0 ? false:true;
 	}
 	
 }

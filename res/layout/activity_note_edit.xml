@@ -40,7 +40,7 @@
 		        <ImageView
 		            android:id="@+id/note_edit_clock"
 		            android:layout_width="26dp"
-		            android:layout_height="18dp"		          
+		            android:layout_height="20dp"		          
 		            android:layout_marginTop="12dp"
 		            android:src="@drawable/clock2" />
    
@@ -50,23 +50,21 @@
 		            android:layout_height="wrap_content"
 		            android:gravity="center"
 		            android:paddingTop="12dp"
-		            android:paddingRight="10dp"
+		            android:paddingRight="10dp"		            
 		            android:textSize="13sp" />
 			</LinearLayout>
-	        <TextView
-	            android:id="@+id/note_edit_picture"
-	            android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-	            android:text="@string/note_edit_picture"
-	            android:paddingTop="12dp"
-	            android:paddingRight="10dp"
-            	android:textSize="13sp"
-            	android:gravity="center"/>
-	        
+	      
+	         <ImageView
+	             android:id="@+id/note_edit_picture"
+	             android:layout_width="28dp"
+	             android:layout_height="28dp"
+	             android:layout_marginTop="7dp"
+	             android:layout_marginRight="10dp"
+	             android:src="@drawable/picture" />
 	         <ImageView
 	             android:id="@+id/note_edit_share"
 	             android:layout_width="26dp"
-	             android:layout_height="18dp"
+	             android:layout_height="20dp"
 	             android:layout_marginTop="12dp"
 	             android:layout_marginRight="10dp"
 	             android:src="@drawable/detail_share" />

@@ -11,16 +11,18 @@ import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.content.ContentValues;
 import android.content.Context;
 import android.widget.TextView;
 import java.util.Date;
+import java.text.SimpleDateFormat; 
 
 public class NoteItemView extends LinearLayout {
 	private NoteItemModel mItemModel;
 	private TextView mContent;
-	private TextView mClock;
+	private ImageView mClock;
 	private TextView mModifyTime;
 	private Button mDelete;
 	
@@ -31,7 +33,7 @@ public class NoteItemView extends LinearLayout {
 	}
 	public void initResource(){
 		this.mContent = (TextView)findViewById(R.id.note_item_content);
-		this.mClock = (TextView)findViewById(R.id.note_item_clock);
+		this.mClock = (ImageView)findViewById(R.id.note_item_clock);
 		this.mModifyTime = (TextView)findViewById(R.id.note_item_modify_time);
 		this.mDelete = (Button)findViewById(R.id.note_item_delete);		
 	}
@@ -39,7 +41,8 @@ public class NoteItemView extends LinearLayout {
 		this.mItemModel = itemModel;
 		this.setContent(this.mItemModel.getContent());	
 		this.setClockTv();
-		this.mModifyTime.setText(DateUtils.getRelativeTimeSpanString(itemModel.getModifyDate()));
+		this.mModifyTime.setText(this.getFormatModifyTime(itemModel.getModifyDate()));
+		
 		this.mDelete.setOnClickListener(new OnClickListener(){
 
 			@Override
@@ -57,6 +60,24 @@ public class NoteItemView extends LinearLayout {
 			}
 			
 		});
+	}
+	@SuppressWarnings("deprecation")
+	private CharSequence getFormatModifyTime(long time){
+		SimpleDateFormat formatter1 = new SimpleDateFormat ("yyyy/MM/dd");
+		SimpleDateFormat formatter2 = new SimpleDateFormat ("MM/dd");
+		Date dateNow = new Date();
+		Date dateModify = new Date(time);
+		String format = "";
+		if((dateNow.getYear() == dateModify.getYear()) && (dateNow.getMonth() == dateModify.getMonth()) && (dateNow.getDate() == dateModify.getDate())){
+			format = "" + dateModify.getHours() + ":" + dateModify.getMinutes();
+		}
+		else if(dateNow.getYear() == dateModify.getYear()){
+			format = formatter2.format(dateModify);
+		}
+		else{
+			format = formatter1.format(dateModify);
+		}
+		return format;
 	}
 	private void setContent(String content) {
 		// TODO Auto-generated method stub
@@ -100,8 +121,8 @@ public class NoteItemView extends LinearLayout {
 	}
 	public void showDeleteButton() {
 		// TODO Auto-generated method stub
-	//	this.mClock.setVisibility(View.GONE);
-		this.mClock.setText("");
+		this.mClock.setVisibility(View.GONE);
+	//	this.mClock.setText("");
 		this.mModifyTime.setVisibility(View.GONE);
 		this.mDelete.setVisibility(View.VISIBLE);
 	}

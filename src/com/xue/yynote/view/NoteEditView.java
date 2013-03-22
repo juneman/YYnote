@@ -33,6 +33,7 @@ import android.graphics.BitmapFactory;
 
 import java.io.ByteArrayOutputStream;    
 import java.io.File;  
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import android.provider.MediaStore;
@@ -53,7 +54,7 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 	private TextView mModifyTime;
 	private TextView mClockTime;
 	private ImageView mClock;
-	private TextView mPicture;
+	private ImageView mPicture;
 	private ImageView mShare;
 	
 	private ImageView mSave;
@@ -77,7 +78,7 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 		this.mContent = (EditText)findViewById(R.id.note_edit_content);
 		this.mSave = (ImageView)findViewById(R.id.note_edit_save);
 		this.mShare = (ImageView)findViewById(R.id.note_edit_share);
-		this.mPicture = (TextView)findViewById(R.id.note_edit_picture);
+		this.mPicture = (ImageView)findViewById(R.id.note_edit_picture);
 		this.mModifyTime = (TextView)findViewById(R.id.note_edit_modify_time);
 		this.mClock = (ImageView)findViewById(R.id.note_edit_clock);
 		this.mClockTime = (TextView)findViewById(R.id.note_edit_clock_time);
@@ -238,7 +239,7 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 			null);
 		}
 
-		this.mClockTime.setText(DateUtils.getRelativeTimeSpanString(mClockModel.getTimeInMillis()));
+		this.mClockTime.setText(this.getFormatClockTime(mClockModel.getTimeInMillis()));
 		
 		Intent intent = new Intent(this.getContext(), ClockReceiver.class);
 		Bundle bundle = new Bundle();
@@ -279,7 +280,45 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 		this.mClock.setOnClickListener(this);
 	}
 	
-	
+	@SuppressWarnings("deprecation")
+	private CharSequence getFormatClockTime(long clockTime) {
+		// TODO Auto-generated method stub
+		Date dateClock = new Date(clockTime);
+		Date dateNow = new Date();
+		String format = "";
+		if(dateClock.getYear() > dateNow.getYear()){
+			format += String.valueOf(dateClock.getYear()) + "-";
+			format += "" + (dateClock.getMonth()+1) + "-" + dateClock.getDate();
+		}
+		else if(dateClock.getMonth() > dateNow.getMonth() || dateClock.getDate() > dateNow.getDate())
+			format = "" + (dateClock.getMonth()+1) + "-" + dateClock.getDate();
+		else if(dateClock.getMonth() == dateNow.getMonth() && dateClock.getDate() == dateNow.getDate())
+			format = "" + dateClock.getHours() + ":" + dateClock.getMinutes();
+		else {
+			if(dateClock.getYear() < dateNow.getYear())
+				format += String.valueOf(dateClock.getYear()) + "-";
+			format += "" + (dateClock.getMonth()+1) + "-" + dateClock.getDate();
+		}
+		return format;
+	}
+	@SuppressWarnings("deprecation")
+	private CharSequence getFormatModifyTime(long time){
+		SimpleDateFormat formatter1 = new SimpleDateFormat ("yyyy/MM/dd");
+		SimpleDateFormat formatter2 = new SimpleDateFormat ("MM/dd");
+		Date dateNow = new Date();
+		Date dateModify = new Date(time);
+		String format = "";
+		if((dateNow.getYear() == dateModify.getYear()) && (dateNow.getMonth() == dateModify.getMonth()) && (dateNow.getDate() == dateModify.getDate())){
+			format = "" + dateModify.getHours() + ":" + dateModify.getMinutes();
+		}
+		else if(dateNow.getYear() == dateModify.getYear()){
+			format = formatter2.format(dateModify);
+		}
+		else{
+			format = formatter1.format(dateModify);
+		}
+		return format;
+	}
 	public void finishEdit(){
 		DBHelper dbHelper = DBHelper.getInstance(this.getContext());
 		
@@ -306,14 +345,15 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 		cursor.moveToFirst();
 		this.mNoteItemModel = new NoteItemModel(cursor);
 		this.setContent(this.mNoteItemModel.getContent());
-		this.mModifyTime.setText(DateUtils.getRelativeTimeSpanString(this.mNoteItemModel.getModifyDate()));
+		
+		//this.mModifyTime.setText(DateUtils.getRelativeTimeSpanString(this.mNoteItemModel.getModifyDate()));
+		this.mModifyTime.setText(this.getFormatModifyTime(this.mNoteItemModel.getModifyDate()));
 		if(this.mNoteItemModel.isClock()){
 			ClockModel mClock = this.mNoteItemModel.getClockModel();
-			long time = mClock.getTimeInMillis();
-			if(time <= System.currentTimeMillis()){
-				this.mClockTime.setText(R.string.clock_passed);
-			}
-			else this.mClockTime.setText(DateUtils.getRelativeTimeSpanString(time));
+			long time = mClock.getTimeInMillis();		
+			
+			this.mClockTime.setText(this.getFormatClockTime(time));	
+			
 			this.mClock.setOnClickListener(null);
 		}
 		this.status = STATUS_EDIT;

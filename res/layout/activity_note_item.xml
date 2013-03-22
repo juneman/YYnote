@@ -27,13 +27,12 @@
 	    android:paddingRight="10dip"
 	    android:paddingBottom="10dip" >
 	    
-        <TextView
-		    android:id="@+id/note_item_clock"
-		    android:visibility="gone"
-		    android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
-		    android:text="@string/note_item_clock"
-		     />
+         <ImageView
+            android:id="@+id/note_item_clock"
+            android:visibility="gone"
+            android:layout_width="26dp"
+            android:layout_height="18dp"		          
+            android:src="@drawable/clock2" />
         <TextView 
 		    android:id="@+id/note_item_modify_time"
 		   	android:layout_width="wrap_content"

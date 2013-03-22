@@ -24,9 +24,17 @@
         </activity>
          <activity
             android:name=".activity.NoteEditActivity">
-            
+             <intent-filter>
+                <action android:name="android.intent.action.View" />
+				<category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
-        
+        <activity 
+            android:name=".activity.ClockAlertActivity"
+            android:launchMode="singleInstance"
+            android:theme="@style/Theme.clock">   
+        </activity>
+        <receiver android:name=".activity.ClockReceiver" android:process=":remote"/>
     </application>
 
 </manifest>
