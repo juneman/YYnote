@@ -1,0 +1,10 @@
+.settings/
+bin/
+gen/
+libs/
+.classpath
+.project
+key.txt
+lint.xml
+proguard-project.txt
+project.properties

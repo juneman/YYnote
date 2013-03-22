@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">YYnote</string>
+    <string name="menu_settings">Settings</string>
+    <string name="new_note_btn">New Note</string>
+    <string name="cancle_btn">Cancel</string>
+    <string name="note_item_clock">Clock</string>
+    <string name="note_item_delete">Delete</string>
+    <string name="note_snippet_info">...</string>
+    <string name="note_edit_clock">Clock</string>
+	<string name="note_edit_picture">Picture</string>
+	<string name="note_edit_share">Share</string>
+	<string name="note_edit_save">Save</string>
+	<string name="clock_passed">Passed</string>
+	<string name="clock_days">Calendar</string>
+	<string name="clock_minutes">Time</string>
+    <string name="clock_alert_days">Alert Days</string>
+	<string name="clock_alert_interval">Alert Interval</string>
+	<string name="clock_alert_times">Alert Times</string>
+	<string name="clock_none">None</string>
+	<string name="clock_alert_single_min"> min</string>
+	<string name="clock_alert_multi_mins"> mins</string>
+	<string name="clock_alert_single_time"> time</string>
+	<string name="clock_alert_multi_times"> times</string>
+	<string name="clock_dialog_ok">OK</string>
+	<string name="clock_dialog_cancel">Cancel</string>
+	<string name="clock_dialog_delete">Delete</string>
+	<string name="clock_dialog_select_time">Select time</string>
+	<string name="clock_dialog_go">Go it!</string>
+	<string name="clock_dialog_known">I know it!</string>
+	<string-array name="clock_alert_days_array">
+		<item >1 day</item>
+		<item >2 days</item>
+		<item >3 days</item>
+		<item >5 days</item>
+		<item >10 days</item>
+	</string-array>
+	<string-array name="clock_alert_interval_array">
+	    <item >None</item>
+		<item >1 min</item>
+		<item >2 mins</item>
+		<item >3 mins</item>
+		<item >5 mins</item>
+		<item >10 mins</item>
+	</string-array>
+	<string-array name="clock_alert_times_array">
+		<item >1 time</item>
+		<item >2 times</item>
+		<item >3 times</item>
+		<item >5 times</item>
+		<item >10 times</item>
+	</string-array>
+	<!-- clock calendar week -->
+	<string name="clock_calendar_sun">Sun.</string>
+	<string name="clock_calendar_mon">Mon.</string>
+	<string name="clock_calendar_tue">Tue.</string>
+	<string name="clock_calendar_wed">Wed.</string>
+	<string name="clock_calendar_thur">Thur.</string>
+	<string name="clock_calendar_fri">Fri.</string>
+	<string name="clock_calendar_sat">Sat.</string>
+	<string name="clock_calendar_year"> year</string>
+	<!-- clock calendar month -->
+	<string-array name="clock_calendar_month">
+	    <item>Jan.</item>
+		<item>Feb.</item>
+		<item>Mar.</item>
+		<item>Apr.</item>
+		<item>May.</item>
+		<item>Jun.</item>
+		<item>Jul.</item>
+		<item>Aug.</item>
+		<item>Sep.</item>
+		<item>Oct.</item>
+		<item>Nov.</item>
+		<item>Dec.</item>
+	</string-array>
+</resources>

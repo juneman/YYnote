@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"   
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_marginBottom="10dip"
+	android:background="#eee" >
+    
+	<TextView
+	    android:id="@+id/note_item_content" 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:padding="10dip"	    
+	    android:textSize="15sp"
+	    android:textColor="#333"
+	    android:maxLines="2"
+	    android:minLines="2"
+	    android:ellipsize="end"
+	    />
+
+    <LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:gravity="right"
+	    android:layout_gravity="bottom"
+	    android:paddingRight="10dip"
+	    android:paddingBottom="10dip" >
+	    
+        <TextView
+		    android:id="@+id/note_item_clock"
+		    android:visibility="gone"
+		    android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+		    android:text="@string/note_item_clock"
+		     />
+        <TextView 
+		    android:id="@+id/note_item_modify_time"
+		   	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+		    android:textSize="13sp"
+		   android:textColor="#999" />	    
+		
+		<Button 
+		    android:id="@+id/note_item_delete"
+		    android:visibility="gone"
+		    android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+		    android:textColor="#aa2116"
+		    android:textSize="15sp"
+		    android:text="@string/note_item_delete"/>
+	</LinearLayout>
+	
+</LinearLayout>

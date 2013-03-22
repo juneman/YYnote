@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center" >
+    <LinearLayout
+        style="@style/doubleWrap"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <TextView 
+            android:id="@+id/clock_calendar_year"
+            style="@style/doubleWrap"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:padding="10dp"/>
+        <TextView 
+            android:id="@+id/clock_calendar_month"
+            style="@style/doubleWrap"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:padding="10dp"/>
+    </LinearLayout>
+    
+     <LinearLayout 
+        style="@style/doubleWrap"
+        android:gravity="center"
+        android:orientation="horizontal">
+        "
+        <TextView 
+            android:text="@string/clock_calendar_sun"
+            android:layout_width="35sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize = "10sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            />
+        <TextView 
+            android:text="@string/clock_calendar_mon"
+            android:layout_width="35sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize = "10sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            />
+        <TextView 
+            android:text="@string/clock_calendar_tue"
+            android:layout_width="35sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize = "10sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            />
+        <TextView 
+            android:text="@string/clock_calendar_wed"
+            android:layout_width="35sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize = "10sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            />
+        <TextView 
+            android:text="@string/clock_calendar_thur"
+            android:layout_width="35sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize = "10sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            />
+        <TextView 
+            android:text="@string/clock_calendar_fri"
+            android:layout_width="35sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize = "10sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            />
+        <TextView 
+            android:text="@string/clock_calendar_sat"
+            android:layout_width="35sp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize = "10sp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            />
+    </LinearLayout>
+    <GridView 
+	    android:id="@+id/clock_calendar_gridview"
+	    android:layout_width="245dp"
+	    android:layout_height="240dp"
+    	android:columnWidth="35dp"
+    	android:stretchMode="columnWidth"
+    	android:gravity="center"
+	    android:numColumns="auto_fit"
+	    />
+
+</LinearLayout>
