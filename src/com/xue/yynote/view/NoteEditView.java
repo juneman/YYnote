@@ -347,7 +347,7 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 		this.setContent(this.mNoteItemModel.getContent());
 		
 		//this.mModifyTime.setText(DateUtils.getRelativeTimeSpanString(this.mNoteItemModel.getModifyDate()));
-		this.mModifyTime.setText(this.getFormatModifyTime(this.mNoteItemModel.getModifyDate()));
+		//this.mModifyTime.setText(this.getFormatModifyTime(this.mNoteItemModel.getModifyDate()));
 		if(this.mNoteItemModel.isClock()){
 			ClockModel mClock = this.mNoteItemModel.getClockModel();
 			long time = mClock.getTimeInMillis();		

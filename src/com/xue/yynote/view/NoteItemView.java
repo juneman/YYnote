@@ -63,17 +63,14 @@ public class NoteItemView extends LinearLayout {
 	}
 	@SuppressWarnings("deprecation")
 	private CharSequence getFormatModifyTime(long time){
-		SimpleDateFormat formatter1 = new SimpleDateFormat ("yyyy/MM/dd");
-		SimpleDateFormat formatter2 = new SimpleDateFormat ("MM/dd");
+		SimpleDateFormat formatter1 = new SimpleDateFormat ("yyyy-MM-dd");
+		SimpleDateFormat formatter2 = new SimpleDateFormat ("MM-dd");
 		Date dateNow = new Date();
 		Date dateModify = new Date(time);
 		String format = "";
 		if((dateNow.getYear() == dateModify.getYear()) && (dateNow.getMonth() == dateModify.getMonth()) && (dateNow.getDate() == dateModify.getDate())){
-			format = "" + dateModify.getHours() + ":" + dateModify.getMinutes();
-		}
-		else if(dateNow.getYear() == dateModify.getYear()){
-			format = formatter2.format(dateModify);
-		}
+			format = "" + "今天 " + dateModify.getHours() + ":" + dateModify.getMinutes();
+		}		
 		else{
 			format = formatter1.format(dateModify);
 		}
@@ -122,7 +119,6 @@ public class NoteItemView extends LinearLayout {
 	public void showDeleteButton() {
 		// TODO Auto-generated method stub
 		this.mClock.setVisibility(View.GONE);
-	//	this.mClock.setText("");
 		this.mModifyTime.setVisibility(View.GONE);
 		this.mDelete.setVisibility(View.VISIBLE);
 	}
