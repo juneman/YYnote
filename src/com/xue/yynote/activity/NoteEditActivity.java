@@ -40,11 +40,24 @@ public class NoteEditActivity extends Activity{
 		
 		this.mNoteEditView = new NoteEditView(this);
 		this.setContentView(mNoteEditView);
-		Bundle bundle=getIntent().getExtras();
-		int mNoteId=bundle.getInt("ID");
+		Bundle bundle = getIntent().getExtras();
+		int mNoteId = bundle.getInt("ID");
 		if(mNoteId >= 0){
 			this.mNoteEditView.setNoteEditModel(mNoteId);
-		}else this.mNoteEditView.createNoteEditModel();	
+		}else if(mNoteId == -1){
+			this.mNoteEditView.createNoteEditModel();	
+		}
+		else if(mNoteId == -2){
+			String mNoteContent = bundle.getString("CONTENT");
+			Bitmap mNoteBitmap = bundle.getParcelable("bitmap");
+			if(mNoteContent != null){
+				this.mNoteEditView.setContentText(mNoteContent);
+			}
+			else if(mNoteBitmap != null){
+				this.mNoteEditView.createNoteEditModel();	//创建model			
+				showBitmapImg(mNoteBitmap);
+			}			
+		}
 	}	
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {  
@@ -67,29 +80,30 @@ public class NoteEditActivity extends Activity{
 	    	}
 	    	if(originalBitmap != null){ 
 	    			bitmap = resizeImage(originalBitmap, 200, 200);
-	    			String filePath = this.savePicture(bitmap);
-
-	                //根据Bitmap对象创建ImageSpan对象  
-	                ImageSpan imageSpan = new ImageSpan(NoteEditActivity.this, bitmap);  
-	                //创建一个SpannableString对象，以便插入用ImageSpan对象封装的图像  
-	                SpannableString spannableString = new SpannableString("[0x64" + filePath + "]");  
-	                //  用ImageSpan对象替换face  
-	                spannableString.setSpan(imageSpan, 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
-	                //将选择的图片追加到EditText中光标所在位置  
-	                int index = mNoteEditView.mContent.getSelectionStart(); //获取光标所在位置  
-	                Editable edit_text = mNoteEditView.mContent.getEditableText();  
-	                if(index <0 || index >= edit_text.length()){  
-	                    edit_text.append(spannableString);  
-	                }else{  
-	                    edit_text.insert(index, spannableString);  
-	                }  
-	             
+	    			showBitmapImg(bitmap);	             
 	            }else{  
 	                Toast.makeText(NoteEditActivity.this, "获取图片失败", Toast.LENGTH_SHORT).show();  
 	            }
 	    }  
 	}
 	
+	public void showBitmapImg(Bitmap bitmap){
+		String filePath = this.savePicture(bitmap);
+		//根据Bitmap对象创建ImageSpan对象  
+        ImageSpan imageSpan = new ImageSpan(NoteEditActivity.this, bitmap);  
+        //创建一个SpannableString对象，以便插入用ImageSpan对象封装的图像  
+        SpannableString spannableString = new SpannableString("[0x64" + filePath + "]");  
+        //  用ImageSpan对象替换face  
+        spannableString.setSpan(imageSpan, 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
+        //将选择的图片追加到EditText中光标所在位置  
+        int index = mNoteEditView.mContent.getSelectionStart(); //获取光标所在位置  
+        Editable edit_text = mNoteEditView.mContent.getEditableText();  
+        if(index <0 || index >= edit_text.length()){  
+            edit_text.append(spannableString);  
+        }else{  
+            edit_text.insert(index, spannableString);  
+        } 
+	}
 	private String savePicture(Bitmap bitmap) {
 		// TODO Auto-generated method stub
 		File root = this.getFilesDir();

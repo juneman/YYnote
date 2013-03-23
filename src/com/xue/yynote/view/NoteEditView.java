@@ -358,9 +358,15 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 		}
 		this.status = STATUS_EDIT;
 	}
+	//添加分享进来的文本内容
+	public void setContentText(String contentText){
+		this.createNoteEditModel();
+		this.mNoteItemModel.setContent(contentText);
+		this.setContent(contentText);
+	}
+	
 	private void setContent(String content) {
 		// TODO Auto-generated method stub
-
 		this.mContent.setText(content);
 		int index = 0;
 		
