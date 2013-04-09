@@ -37,14 +37,12 @@ public class ClockCalendarView  extends LinearLayout{
 	private TextView mTvCurMonth;
 	private int mCurYear;
 	private int mCurMonth;
-	private int mCurDay;
 	private GridView mGridView;
 	private long mDate;
 	private Drawable mCalendarItemBgDrawable;
 	
 	private CalendarItemView curItemView;
 	private ArrayList<Long> days;
-	private boolean isFullCovered;
 	private int curDayPosition;
 	
 	@SuppressLint("HandlerLeak")
@@ -90,13 +88,12 @@ public class ClockCalendarView  extends LinearLayout{
 		// TODO Auto-generated method stub
 		this.mDate = System.currentTimeMillis();
 		this.mCalendarItemBgDrawable = null;
-		this.isFullCovered = true;
 		this.initAdapter();
 		this.mAdapter = new CalendarAdapter(this.getContext(), R.layout.activity_calendar_item, this.days);
 		
 		this.mGridView = (GridView) findViewById(R.id.clock_calendar_gridview);
 		this.mGridView.setAdapter(this.mAdapter);
-
+		
 		this.mTvCurYear = (TextView)findViewById(R.id.clock_calendar_year);
 		this.mTvCurMonth = (TextView)findViewById(R.id.clock_calendar_month);
 		this.mAdapter.setCurPosition(this.curDayPosition);
@@ -123,7 +120,6 @@ public class ClockCalendarView  extends LinearLayout{
 				}
 				ClockCalendarView.this.curItemView = curItem;
 				ClockCalendarView.this.curDayPosition = position;
-				ClockCalendarView.this.mCurDay = position;
 				view.setBackgroundDrawable(ClockCalendarView.this.mCalendarItemBgDrawable);
 			}
 			
@@ -163,8 +159,8 @@ public class ClockCalendarView  extends LinearLayout{
 		Log.d(TAG, "initGridView");
 		this.curItemView = (CalendarItemView) this.mGridView.getChildAt(this.curDayPosition);
 		this.mCalendarItemBgDrawable = this.curItemView.getBackground();
-		this.curItemView.setBackgroundColor(CURRENT_DAY_BG);
 		Date date = new Date(this.mDate);
+
 		this.updateYearAndMonth(date.getYear() + 1900, date.getMonth());
 		this.updateCurMonthBg(this.curItemView.getYear(), this.curItemView.getMonth());
 	}
@@ -176,23 +172,35 @@ public class ClockCalendarView  extends LinearLayout{
 		int firstVisiblePosition = this.mGridView.getFirstVisiblePosition();
 		CalendarItemView item = (CalendarItemView) this.mGridView.getChildAt(p);
 		while(item!= null && (item.getYear() != year || item.getMonth() != month)) {
-			item.setBackgroundDrawable(this.mCalendarItemBgDrawable);
-			
+			if((p + firstVisiblePosition) == this.curDayPosition){
+				item.asCurrentDay();
+			}
+			else {
+				item.setBackgroundDrawable(this.mCalendarItemBgDrawable);
+			}
 			item = (CalendarItemView) this.mGridView.getChildAt(++p);
 			//Log.d(TAG, "" + p + "year:" + item.getYear() + " month:" + item.getMonth() + " day:" + item.getDay());
 		}
 		
 		item = (CalendarItemView) this.mGridView.getChildAt(p);
 		while(item != null && item.getYear() == year && item.getMonth() == month){
-			if((p + firstVisiblePosition) == this.curDayPosition)
-				item.setBackgroundDrawable(this.mCalendarItemBgDrawable);
-			else item.setBackgroundColor(CURRENT_MONTH_BG);
+			if((p + firstVisiblePosition) == this.curDayPosition){
+				item.asCurrentDay();
+			}
+			else {
+				item.setBackgroundColor(CURRENT_MONTH_BG);
+			}
 			//Log.d(TAG, "" + p + "year:" + item.getYear() + " month:" + item.getMonth() + " day:" + item.getDay());
 			item = (CalendarItemView) this.mGridView.getChildAt(++p);
 		}
 		
 		while(item != null && p < this.mGridView.getCount()){
-			item.setBackgroundDrawable(mCalendarItemBgDrawable);
+			if((p + firstVisiblePosition) == this.curDayPosition){
+				item.asCurrentDay();
+			}
+			else {
+				item.setBackgroundDrawable(this.mCalendarItemBgDrawable);
+			}
 			item = (CalendarItemView) this.mGridView.getChildAt(++p);
 		}
 	}
@@ -228,13 +236,11 @@ class CalendarAdapter extends ArrayAdapter<Long> {
 	
 	private int mMonth;
 	private int mYear;
-	private int mPosition;
 	public CalendarAdapter(Context context, int resource, List<Long> objects){
 		super(context, resource, objects);
 	}
 	
 	public void setCurPosition(int position){
-		this.mPosition = position;
 	}
 	
 	public void setCurYearAndMonth(int year, int month){

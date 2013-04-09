@@ -7,8 +7,6 @@ import com.xue.yynote.model.ClockModel;
 import com.xue.yynote.tools.DBHelper;
 import com.xue.yynote.view.NotesListView;
 
-import android.text.format.DateUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -39,7 +37,7 @@ public class NoteItemView extends LinearLayout {
 	}
 	public void setModel(NoteItemModel itemModel){
 		this.mItemModel = itemModel;
-		this.setContent(this.mItemModel.getContent());	
+		this.mContent.setText(this.mItemModel.getContentForItem());
 		this.setClockTv();
 		this.mModifyTime.setText(this.getFormatModifyTime(itemModel.getModifyDate()));
 		
@@ -49,7 +47,7 @@ public class NoteItemView extends LinearLayout {
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				NoteItemView.this.mDelete.setVisibility(View.GONE);
-				DBHelper dbHelper = DBHelper.getInstance();
+				DBHelper dbHelper = DBHelper.getInstance(NoteItemView.this.getContext());
 				dbHelper.delete(DBHelper.TABLE.ALERTS, 
 						ClockModel.ID + " = " + NoteItemView.this.mItemModel.getClockId(), null);
 				dbHelper.delete(DBHelper.TABLE.NOTES, 
@@ -72,21 +70,21 @@ public class NoteItemView extends LinearLayout {
 			format = "" + "今天 " + dateModify.getHours() + ":" + dateModify.getMinutes();
 		}		
 		else{
-			format = formatter1.format(dateModify);
+			format = formatter2.format(dateModify);
 		}
 		return format;
 	}
-	private void setContent(String content) {
+	//private void setContent(String content) {
 		// TODO Auto-generated method stub
-		int index = 0;
-		while(content.indexOf("[0x64", index) >= 0){
-			index = content.indexOf("[0x64");
-			int end = content.indexOf("]", index+1);
-			content = content.replace(content.substring(index, end+1), "[Pic]");
-			index += 1;
-		}
-		this.mContent.setText(content);
-	}
+	//	int index = 0;
+	//	while(content.indexOf("[0x64", index) >= 0){
+	//		index = content.indexOf("[0x64");
+	//		int end = content.indexOf("]", index+1);
+	//		content = content.replace(content.substring(index, end+1), "[Pic]");
+	//		index += 1;
+	//	}
+	//	this.mContent.setText(content);
+	//}
 	public int getModelId() {
 		// TODO Auto-generated method stub
 		return this.mItemModel.getId();

@@ -20,8 +20,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -152,6 +150,10 @@ public class ClockView extends LinearLayout{
 					};
 					ClockView.this.tvAlertTimes.setText(arrayAlertTimes[which]);
 					ClockView.this.mClockModel.setAlertTimes(a[which]);
+					if(which > 0 && ClockView.this.mClockModel.getAlertInterval() == 0){
+						ClockView.this.mClockModel.setAlertInterval(1);
+						ClockView.this.tvAlertInterval.setText(arrayAlertInterval[1]);
+					}
 				}
 			}).show();
 	}

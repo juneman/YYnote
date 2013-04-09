@@ -3,6 +3,7 @@ package com.xue.yynote.activity;
 import java.io.IOException;
 
 import com.xue.yynote.R;
+import com.xue.yynote.model.ClockModel;
 import com.xue.yynote.model.NoteItemModel;
 import com.xue.yynote.tools.DBHelper;
 import com.xue.yynote.activity.NoteEditActivity;
@@ -12,27 +13,29 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
 import android.content.DialogInterface.OnDismissListener;
-import android.database.Cursor;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
+import android.os.Vibrator;
 import android.provider.Settings;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 
 public class ClockAlertActivity extends Activity implements OnClickListener, OnDismissListener{
 	private int mNoteId;
     private String mSnippet;
     private static final int SNIPPET_PREW_MAX_LEN = 60;
     MediaPlayer mPlayer;
-    
-    
+    private Vibrator mVibrator;
+    private NoteItemModel mNoteModel;
+    private ClockModel mClockModel;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -50,9 +53,11 @@ public class ClockAlertActivity extends Activity implements OnClickListener, OnD
         Bundle bundle = this.getIntent().getExtras();
 
         try {
-            //mNoteId = Long.valueOf(intent.getData().getPathSegments().get(1));
         	mNoteId = bundle.getInt("com.xue.yynote.NOTE_ID");
-            mSnippet = this.getContentById(mNoteId);
+        	mNoteModel = new NoteItemModel(this, mNoteId);
+        	mClockModel = this.mNoteModel.getClockModel();
+        	
+            mSnippet = this.mNoteModel.getContentForItem();
             mSnippet = mSnippet.length() > SNIPPET_PREW_MAX_LEN ? mSnippet.substring(0,
                     SNIPPET_PREW_MAX_LEN) + getResources().getString(R.string.note_snippet_info)
                     : mSnippet;
@@ -62,18 +67,14 @@ public class ClockAlertActivity extends Activity implements OnClickListener, OnD
         }
 
         mPlayer = new MediaPlayer();
+        this.mVibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         this.showActionDialog();
-       // this.playAlarmSound();
+        this.playAlarmSound();
+        
+        this.mVibrator.vibrate(new long[]{1000L, 1000L, 1000L, 1000L}, 0);
         
     }
-    private String getContentById(int id){
-    	DBHelper dbHelper = DBHelper.getInstance(this);
-    	Log.d("TAG", "" + id);
-    	Cursor cursor = dbHelper.query(DBHelper.TABLE.NOTES, new String[]{NoteItemModel.CONTENT}, NoteItemModel.ID + " = " + id, null, null);
-    	cursor.moveToFirst();
-    	String content = cursor.getString(0);
-    	return content;
-    }
+    
     private boolean isScreenOn() {
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         return pm.isScreenOn();
@@ -114,10 +115,14 @@ public class ClockAlertActivity extends Activity implements OnClickListener, OnD
         dialog.setMessage(mSnippet);
         
         dialog.setPositiveButton(R.string.clock_dialog_go, this);
+        if(!this.mClockModel.isClockFinished()){
+        	dialog.setNeutralButton(R.string.clock_dialog_delete, this);
+        }
         if (isScreenOn()) {
             dialog.setNegativeButton(R.string.clock_dialog_known, null);
         }
         dialog.show().setOnDismissListener(this);
+        this.mClockModel.addAlertCount();
     }
     public void onClick(DialogInterface dialog, int which) {
         switch (which) {
@@ -127,13 +132,39 @@ public class ClockAlertActivity extends Activity implements OnClickListener, OnD
                 intent.putExtra("ID", mNoteId);
                 startActivity(intent);
                 break;
+            case DialogInterface.BUTTON_NEUTRAL:
+            	// TODO Auto-generated method stub
+        		this.deleteClock();
+            	break;
             default:
-            	this.finish();
                 break;
         }
     }
+    
+    public void deleteClock(){
+    	Intent intent = new Intent(this, ClockReceiver.class);
+		Bundle bundle = new Bundle();
+		bundle.putInt("com.xuewish.xnotes.NOTE_ID", this.mNoteModel.getId());
+		intent.putExtras(bundle);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+		//获取系统进程
+        AlarmManager am = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+        //cancel
+        am.cancel(pendingIntent);
+        DBHelper dbHelper = DBHelper.getInstance(this);
+		dbHelper.delete(DBHelper.TABLE.ALERTS, ClockModel.ID + " = " + this.mNoteModel.getClockId(), null);
+
+		this.mNoteModel.setClockId(-1);
+		dbHelper.update(DBHelper.TABLE.NOTES, this.mNoteModel.formatContentValuesWithoutId(), 
+				NoteItemModel.ID + " = " + this.mNoteModel.getId(), 
+				null);
+    }
+    
     public void onDismiss(DialogInterface dialog) {
         stopAlarmSound();
+        this.mVibrator.cancel();
+        if(this.mClockModel.isClockFinished())
+        	this.deleteClock();
         finish();
     }
 

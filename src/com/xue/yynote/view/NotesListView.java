@@ -49,9 +49,9 @@ public class NotesListView extends ListView{
 		NoteItemModel mNoteItem;
 		this.mNotesList = new ArrayList<NoteItemModel>();
 		DBHelper dbHelper = DBHelper.getInstance(this.getContext());
-		Cursor cursor = dbHelper.query(DBHelper.TABLE.NOTES, NoteItemModel.mColumns, null, null, NoteItemModel.SEQUENCE + " asc");
+		Cursor cursor = dbHelper.query(DBHelper.TABLE.NOTES, NoteItemModel.mColumns, null, null, NoteItemModel.MODIFY_DATE + " desc");
 		while(cursor.moveToNext()){
-			mNoteItem = new NoteItemModel(cursor);
+			mNoteItem = new NoteItemModel(this.getContext(), cursor);
 			this.mNotesList.add(mNoteItem);
 		}
 		this.mAdapter = new NoteListAdapter(this.getContext(), R.layout.activity_note_item,
@@ -117,14 +117,14 @@ public class NotesListView extends ListView{
 	
 	public void refreshAdapter(int id) {
 		if(status == STATUS_CREATE){
-			NoteItemModel mItemModel = new NoteItemModel(id);
+			NoteItemModel mItemModel = new NoteItemModel(this.getContext(), id);
 			this.mAdapter.insert(mItemModel, 0);
 		}
 		if(status == STATUS_EDIT && this.mCurItem != null){
 			//int modelId  = this.mCurItem.getItemModel().getId();
 			int modelId  = this.mCurItem.getModelId();
 			int modelSequence = this.mCurItem.getItemModel().getSequence();
-			NoteItemModel mItemModel = new NoteItemModel(modelId);
+			NoteItemModel mItemModel = new NoteItemModel(this.getContext(), modelId);
 			this.mAdapter.remove(this.mCurItem.getItemModel());
 			this.mAdapter.insert(mItemModel, modelSequence);
 		} else if(status == STATUS_DELETE){

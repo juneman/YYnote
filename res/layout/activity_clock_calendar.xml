@@ -29,7 +29,7 @@
         "
         <TextView 
             android:text="@string/clock_calendar_sun"
-            android:layout_width="35sp"
+            android:layout_width="36sp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize = "10sp"
@@ -47,7 +47,7 @@
             />
         <TextView 
             android:text="@string/clock_calendar_tue"
-            android:layout_width="35sp"
+            android:layout_width="36sp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize = "10sp"
@@ -56,7 +56,7 @@
             />
         <TextView 
             android:text="@string/clock_calendar_wed"
-            android:layout_width="35sp"
+            android:layout_width="36sp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize = "10sp"
@@ -65,7 +65,7 @@
             />
         <TextView 
             android:text="@string/clock_calendar_thur"
-            android:layout_width="35sp"
+            android:layout_width="36sp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize = "10sp"
@@ -74,7 +74,7 @@
             />
         <TextView 
             android:text="@string/clock_calendar_fri"
-            android:layout_width="35sp"
+            android:layout_width="36sp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize = "10sp"
@@ -83,7 +83,7 @@
             />
         <TextView 
             android:text="@string/clock_calendar_sat"
-            android:layout_width="35sp"
+            android:layout_width="36sp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize = "10sp"
@@ -93,9 +93,9 @@
     </LinearLayout>
     <GridView 
 	    android:id="@+id/clock_calendar_gridview"
-	    android:layout_width="245dp"
-	    android:layout_height="240dp"
-    	android:columnWidth="35dp"
+	    android:layout_width="252dp"
+	    android:layout_height="300dp"
+	    android:columnWidth="36dp"
     	android:stretchMode="columnWidth"
     	android:gravity="center"
 	    android:numColumns="auto_fit"

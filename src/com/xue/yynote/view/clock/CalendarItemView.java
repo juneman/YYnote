@@ -65,5 +65,12 @@ public class CalendarItemView extends LinearLayout{
 			return true;
 		else return false;
 	}
+
+	public void asCurrentDay() {
+		// TODO Auto-generated method stub
+		this.setBackgroundColor(ClockCalendarView.CURRENT_DAY_BG);
+		//this.mGregorian.setTextAppearance(this.getContext(), R.style.CalendarItemCurrentDay);
+		//this.mLunar.setTextAppearance(this.getContext(), R.style.CalendarItemCurrentDay);
+	}
 	
 }

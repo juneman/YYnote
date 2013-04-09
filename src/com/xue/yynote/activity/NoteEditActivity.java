@@ -1,27 +1,23 @@
 package com.xue.yynote.activity;
 
-import com.xue.yynote.R;
 import com.xue.yynote.view.NoteEditView;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.graphics.Bitmap; 
 import android.graphics.Matrix;
 import android.graphics.BitmapFactory; 
 import android.net.Uri;
-import java.io.ByteArrayOutputStream;    
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import android.provider.MediaStore; 
+import java.util.ArrayList;
+
 import android.content.ContentResolver;
 import android.text.style.ImageSpan;
 import android.text.SpannableString;
@@ -49,27 +45,53 @@ public class NoteEditActivity extends Activity{
 		}
 		else if(mNoteId == -2){
 			String mNoteContent = bundle.getString("CONTENT");
-			Bitmap mNoteBitmap = bundle.getParcelable("bitmap");
+			Uri imageUri = bundle.getParcelable(Intent.EXTRA_STREAM);
+			Log.i(TAG, "" + imageUri);
+			Bitmap mNoteBitmap = null;
+			if(imageUri != null){
+				try {
+					mNoteBitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(imageUri));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 			if(mNoteContent != null){
 				this.mNoteEditView.setContentText(mNoteContent);
 			}
-			else if(mNoteBitmap != null){
+			if(mNoteBitmap != null){
 				this.mNoteEditView.createNoteEditModel();	//创建model			
 				showBitmapImg(mNoteBitmap);
 			}			
+		}else if(mNoteId == -3){
+			ArrayList<Uri> imageUris = bundle.getParcelableArrayList(Intent.EXTRA_STREAM);
+			Bitmap mNoteBitmap = null;
+			Editable edit_text = mNoteEditView.mContent.getEditableText();
+			this.mNoteEditView.createNoteEditModel();	//创建model
+			for( Uri imageUri : imageUris){
+				try {
+					mNoteBitmap = BitmapFactory.decodeStream(this.getContentResolver().openInputStream(imageUri));
+				} catch (FileNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				if(mNoteBitmap != null){			
+					showBitmapImg(mNoteBitmap);
+					edit_text.append("\n");
+				}
+			}
 		}
 	}	
 
 	protected void onActivityResult(int requestCode, int resultCode, Intent intent) {  
 	    ContentResolver resolver = getContentResolver();   
 	    if (resultCode == RESULT_OK) {
-	    	Bitmap bitmap = null; 
 	    	Bitmap originalBitmap = null;
 	    	if(requestCode == PHOTO_SUCCESS && intent != null){
 	    		Uri originalUri = intent.getData();
 	            try {   
 	                originalBitmap = BitmapFactory.decodeStream(resolver.openInputStream(originalUri));  
-	                 
+	                
 	            } catch (FileNotFoundException e) {  
 	                e.printStackTrace();  
 	            }
@@ -79,15 +101,15 @@ public class NoteEditActivity extends Activity{
 	    		
 	    	}
 	    	if(originalBitmap != null){ 
-	    			bitmap = resizeImage(originalBitmap, 200, 200);
-	    			showBitmapImg(bitmap);	             
-	            }else{  
-	                Toast.makeText(NoteEditActivity.this, "获取图片失败", Toast.LENGTH_SHORT).show();  
-	            }
+	    			showBitmapImg(originalBitmap);	             
+	        }else{  
+	            Toast.makeText(NoteEditActivity.this, "获取图片失败", Toast.LENGTH_SHORT).show();  
+	        }
 	    }  
 	}
 	
 	public void showBitmapImg(Bitmap bitmap){
+		bitmap = resizeImage(bitmap, 200, 200);
 		String filePath = this.savePicture(bitmap);
 		//根据Bitmap对象创建ImageSpan对象  
         ImageSpan imageSpan = new ImageSpan(NoteEditActivity.this, bitmap);  
@@ -102,16 +124,21 @@ public class NoteEditActivity extends Activity{
             edit_text.append(spannableString);  
         }else{  
             edit_text.insert(index, spannableString);  
-        } 
+        }
+        this.mNoteEditView.findImages();
 	}
 	private String savePicture(Bitmap bitmap) {
 		// TODO Auto-generated method stub
-		File root = this.getFilesDir();
-		String name = "/pic_" + System.currentTimeMillis();
+		File root = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+		String name = "/pic_" + System.currentTimeMillis() + ".jpeg";
 		try {
-			File f = new File(root.getPath() + name);
+			File f = new File(root.getAbsolutePath() + name);
 			f.createNewFile();
-			bitmap.compress(Bitmap.CompressFormat.PNG, 90, new FileOutputStream(f.getPath()));
+			FileOutputStream outStream = new FileOutputStream(f.getPath());
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+			
+			outStream.flush();
+			outStream.close();
 			return name;
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -137,14 +164,7 @@ public class NoteEditActivity extends Activity{
 	} 
    
 	public void onBackPressed(){
-	/*	if(this.mNoteEditView.getContentLength() > 0){
-    		this.mNoteEditView.finishEdit();
-    		Bundle bundle = new Bundle(); 
-    		bundle.putInt("NOTE_ID", this.mNoteEditView.getModelId()); 
-    		NoteEditActivity.this.setResult(RESULT_OK, NoteEditActivity.this.getIntent().putExtras(bundle));
-		}
-    	Log.d(TAG, "note is saved succeed");
-    	*/
+		
     	super.onBackPressed();
 	}
 	

@@ -31,6 +31,7 @@ public class DBHelper extends SQLiteOpenHelper{
 					NoteItemModel.CREATE_DATE + " INTEGER NOT NULL DEFAULT 0," +
 					NoteItemModel.MODIFY_DATE + " INTEGER NOT NULL DEFAULT 0," +
 					NoteItemModel.CONTENT + " TEXT　NOT NULL DEFAULT ''," +
+					NoteItemModel.AUDIO + " TEXT　NOT NULL DEFAULT ''," +
 					NoteItemModel.SEQUENCE + " INTEGER NOT NULL DEFAULT 0" +
 			")";
 
@@ -39,7 +40,8 @@ public class DBHelper extends SQLiteOpenHelper{
 					ClockModel.ID + " INTEGER PRIMARY KEY," +
 					ClockModel.TIME + " INTEGER NOT NULL DEFAULT 0," +
 					ClockModel.ALERT_INTERVAL + " INTEGER　NOT NULL DEFAULT 0," +
-					ClockModel.ALERT_TIMES + " INTEGER　NOT NULL DEFAULT 0" +
+					ClockModel.ALERT_TIMES + " INTEGER　NOT NULL DEFAULT 0," +
+					ClockModel.ALERT_COUNT + " INTEGER　NOT NULL DEFAULT 0" +
 			")";
 	
 	public static DBHelper instance;

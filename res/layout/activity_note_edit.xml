@@ -62,6 +62,13 @@
 	             android:layout_marginRight="10dp"
 	             android:src="@drawable/picture" />
 	         <ImageView
+	             android:id="@+id/note_edit_audio"
+	             android:layout_width="28dp"
+	             android:layout_height="28dp"
+	             android:layout_marginTop="7dp"
+	             android:layout_marginRight="10dp"
+	             android:src="@drawable/microphone" />
+	         <ImageView
 	             android:id="@+id/note_edit_share"
 	             android:layout_width="26dp"
 	             android:layout_height="20dp"
@@ -76,20 +83,30 @@
 	    android:layout_height="match_parent"
 	    android:layout_width="match_parent"
 	    android:id="@+id/note_edit_main"
+	    android:orientation="vertical"
 	    >
 
-    <EditText
-        android:id="@+id/note_edit_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#fff"
-        android:ems="10"
-        android:gravity="top"
-        android:inputType="textMultiLine"
-        android:padding="12dip"
-        android:textSize="17sp" >
-
-        <requestFocus />
-    </EditText>
+        <ImageButton
+            android:id="@+id/note_edit_main_audio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/audiologo"
+            android:contentDescription="@string/note_edit_audio_play"
+            android:visibility="gone"
+             />
+	
+	    <EditText
+	        android:id="@+id/note_edit_content"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:background="#fff"
+	        android:ems="10"
+	        android:gravity="top"
+	        android:inputType="textMultiLine"
+	        android:padding="12dip"
+	        android:textSize="17sp" >
+	
+	        <requestFocus />
+	    </EditText>
 	</LinearLayout>
 </LinearLayout>

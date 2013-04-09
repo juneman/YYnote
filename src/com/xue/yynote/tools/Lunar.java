@@ -106,10 +106,8 @@ public class Lunar {
 			e.printStackTrace();
 		}
 
-		int yearCyl;
 		// 求出和1900年1月31日相差的天数
 		int offset = (int) ((cal.getTime() - baseDate.getTime()) / 86400000L);
-		int dayCyl = offset + 40;
 		int monCyl = 14;
 
 		// 用offset减去每农历年的天数
@@ -130,7 +128,6 @@ public class Lunar {
 		// 农历年份
 		year = iYear;
 
-		yearCyl = iYear - 1864;
 		leapMonth = leapMonth(iYear); // 闰哪个月,1-12
 		leap = false;
 
