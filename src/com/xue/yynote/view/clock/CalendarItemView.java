@@ -10,30 +10,31 @@ import android.content.Context;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class CalendarItemView extends LinearLayout{
+public class CalendarItemView extends LinearLayout {
 	private TextView mGregorian;
 	private TextView mLunar;
 	private int mMonth;
 	private int mYear;
 	private int mDay;
-	
+
 	public CalendarItemView(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub
 		inflate(context, R.layout.activity_calendar_item, this);
 		this.initResource();
 	}
-	
-	public CalendarItemView(Context context, Date date, int curYear, int curMonth){
+
+	public CalendarItemView(Context context, Date date, int curYear,
+			int curMonth) {
 		this(context);
 		this.fillText(date, curYear, curMonth);
 	}
 
-	private void initResource(){
-		this.mGregorian = (TextView)findViewById(R.id.calendar_gregorian);
-		this.mLunar = (TextView)findViewById(R.id.calendar_lunar);
+	private void initResource() {
+		this.mGregorian = (TextView) findViewById(R.id.calendar_gregorian);
+		this.mLunar = (TextView) findViewById(R.id.calendar_lunar);
 	}
-	
+
 	@SuppressWarnings("deprecation")
 	private void fillText(Date date, int curYear, int curMonth) {
 		// TODO Auto-generated method stub
@@ -43,34 +44,39 @@ public class CalendarItemView extends LinearLayout{
 
 		this.mGregorian.setText(String.valueOf(date.getDate()));
 		String lan = Locale.getDefault().getLanguage();
-		if(lan.equals("zh")){
+		if (lan.equals("zh")) {
 			Lunar lunar = new Lunar(date);
 			this.mLunar.setText(lunar.toString());
 		}
 	}
-	public int getDay(){
+
+	public int getDay() {
 		return this.mDay;
 	}
-	public int getMonth(){
+
+	public int getMonth() {
 		return this.mMonth;
 	}
-	
-	public int getYear(){
+
+	public int getYear() {
 		return this.mYear;
 	}
-	
-	public boolean isEquls(CalendarItemView item){
-		if(this.mYear == item.getYear() && this.mMonth == item.getMonth() 
+
+	public boolean isEquls(CalendarItemView item) {
+		if (this.mYear == item.getYear() && this.mMonth == item.getMonth()
 				&& this.mDay == item.getDay())
 			return true;
-		else return false;
+		else
+			return false;
 	}
 
 	public void asCurrentDay() {
 		// TODO Auto-generated method stub
 		this.setBackgroundColor(ClockCalendarView.CURRENT_DAY_BG);
-		//this.mGregorian.setTextAppearance(this.getContext(), R.style.CalendarItemCurrentDay);
-		//this.mLunar.setTextAppearance(this.getContext(), R.style.CalendarItemCurrentDay);
+		// this.mGregorian.setTextAppearance(this.getContext(),
+		// R.style.CalendarItemCurrentDay);
+		// this.mLunar.setTextAppearance(this.getContext(),
+		// R.style.CalendarItemCurrentDay);
 	}
-	
+
 }

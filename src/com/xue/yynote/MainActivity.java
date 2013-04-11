@@ -13,53 +13,56 @@ import android.os.Bundle;
 public class MainActivity extends Activity {
 
 	private MainView mMainView;
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		this.mMainView = new MainView(this);
 		this.setContentView(this.mMainView);
-		
+
 	}
-	protected void onResume(){
+
+	protected void onResume() {
 		super.onResume();
 	}
-	//获得activity传来的noteId，刷新列表
+
+	// 获得activity传来的noteId，刷新列表
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		 super.onActivityResult(requestCode, resultCode, data);
-		 if (resultCode == RESULT_OK) { 
-			 Bundle bundle = data.getExtras();
-			 this.mMainView.refreshAdapter(bundle.getInt("NOTE_ID"));
-		 }
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			Bundle bundle = data.getExtras();
+			this.mMainView.refreshAdapter(bundle.getInt("NOTE_ID"));
+		}
 	}
-	public MainView getMainView(){
+
+	public MainView getMainView() {
 		return this.mMainView;
 	}
-	protected void onPause(){
+
+	protected void onPause() {
 		super.onPause();
 		this.mMainView.saveSequence();
 	}
-	
+
 	@Override
-	protected void onStop()
-	{
-	    super.onStop();
-	    this.mMainView.saveSequence();
+	protected void onStop() {
+		super.onStop();
+		this.mMainView.saveSequence();
 		DBHelper.getInstance(this).close();
 	}
-	
+
 	@Override
-	protected void onDestroy()
-	{
-	    super.onDestroy();
-	    this.mMainView.saveSequence();
-	    DBHelper.getInstance(this).close();
+	protected void onDestroy() {
+		super.onDestroy();
+		this.mMainView.saveSequence();
+		DBHelper.getInstance(this).close();
 	}
-	public void onBackPressed(){
-		if(mMainView.getCancelBtnVisible()==0){
+
+	public void onBackPressed() {
+		if (mMainView.getCancelBtnVisible() == 0) {
 			mMainView.clearDeleteButton();
 			mMainView.hideDeleteCancelButton();
-		}
-		else{
+		} else {
 			super.onBackPressed();
 		}
 	}
