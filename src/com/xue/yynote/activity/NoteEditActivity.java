@@ -73,7 +73,12 @@ public class NoteEditActivity extends Activity{
 			}			
 		}else if(mNoteId == -3){
 			ArrayList<Uri> imageUris = bundle.getParcelableArrayList(Intent.EXTRA_STREAM);
+			String mNoteContent = bundle.getString("CONTENT");
 			Bitmap mNoteBitmap = null;
+			
+			if(mNoteContent != null){
+				this.mNoteEditView.setContentText(mNoteContent);
+			}
 			Editable edit_text = mNoteEditView.mContent.getEditableText();
 			this.mNoteEditView.createNoteEditModel();	//创建model
 			for( Uri imageUri : imageUris){
@@ -88,6 +93,8 @@ public class NoteEditActivity extends Activity{
 					edit_text.append("\n");
 				}
 			}
+			
+			
 		}
 	}	
 
@@ -172,26 +179,30 @@ public class NoteEditActivity extends Activity{
 	} 
    
 	public void onBackPressed(){
-		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
-		dialog.setMessage("是否保存修改")
-		.setTitle("提示")
-		.setPositiveButton("是", new DialogInterface.OnClickListener(){
-			public void onClick(DialogInterface dialog, int which) {  
-				mNoteEditView.finishEdit();
-				Bundle bundle = new Bundle(); 
-	    		bundle.putInt("NOTE_ID", mNoteEditView.getModelId());
-	    		NoteEditActivity.this.setResult(Activity.RESULT_OK, NoteEditActivity.this.getIntent().putExtras(bundle));
-	    		NoteEditActivity.this.finish();
-			}
-		})
-		.setNegativeButton("否",new DialogInterface.OnClickListener(){
-			public void onClick(DialogInterface dialog, int which) {  
-				//NoteEditActivity.super.onBackPressed();
-				NoteEditActivity.this.finish();
-			}
-		});
-		dialog.create().show();  
+		if(this.mNoteEditView.getOriginalLen() != this.mNoteEditView.getContentLength()){
+			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+			dialog.setMessage("是否保存修改")
+			.setTitle("提示")
+			.setPositiveButton("是", new DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int which) {  
+					mNoteEditView.finishEdit();
+					Bundle bundle = new Bundle(); 
+		    		bundle.putInt("NOTE_ID", mNoteEditView.getModelId());
+		    		NoteEditActivity.this.setResult(Activity.RESULT_OK, NoteEditActivity.this.getIntent().putExtras(bundle));
+		    		NoteEditActivity.this.finish();
+				}
+			})
+			.setNegativeButton("否",new DialogInterface.OnClickListener(){
+				public void onClick(DialogInterface dialog, int which) {  
+					//NoteEditActivity.super.onBackPressed();
+					NoteEditActivity.this.finish();
+				}
+			});
+			dialog.create().show();  
 		//super.onBackPressed();
+		}
+		else{
+			super.onBackPressed();
+		}
 	}
-	
 }

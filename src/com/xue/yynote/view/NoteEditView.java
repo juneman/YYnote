@@ -15,6 +15,7 @@ import android.media.MediaPlayer;
 import android.media.MediaPlayer.OnCompletionListener;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -34,8 +35,10 @@ import android.widget.ImageView;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimationDrawable;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,14 +62,13 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 	private ImageView mPicture;
 	private ImageView mAudio;
 	private ImageView mShare;
-	
 	private ImageView mSave;
 	private ImageButton mAudioPlay;
 	public EditText mContent;
 	
 	private NoteItemModel mNoteItemModel;
 	private int status;
-	
+	private int originLen;
 	public NoteEditView(Context context){
 		super(context);
 		inflate(context, R.layout.activity_note_edit, this);
@@ -485,6 +487,8 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 		cursor.moveToFirst();
 		this.mNoteItemModel = new NoteItemModel(this.getContext(), cursor);
 		this.setContent(this.mNoteItemModel.getContent());
+		this.originLen = this.mNoteItemModel.getContent().length();//保存原始内容长度
+		
 		if(this.mNoteItemModel.getAudio().length() != 0){
 			this.mAudioPlay.setVisibility(View.VISIBLE);
 		}
@@ -500,6 +504,9 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 		}
 		this.status = STATUS_EDIT;
 	}
+	public int getOriginalLen(){
+		return this.originLen;
+	}
 	//添加分享进来的文本内容
 	public void setContentText(String contentText){
 		this.createNoteEditModel();
@@ -511,6 +518,8 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 		// TODO Auto-generated method stub
 		this.mContent.setText(content);
 		int index = 0;
+		/*
+		//图片路径数组
 		ArrayList<String> images = this.mNoteItemModel.getImages();
 		if(images.isEmpty()) return ;
 		for(String image : images){
@@ -524,12 +533,41 @@ public class NoteEditView extends LinearLayout implements OnClickListener{
 	        //将选择的图片追加到EditText中光标所在位置
 	        Editable edit_text = this.mContent.getEditableText();
 	        edit_text.delete(content.indexOf(image), content.indexOf(image)+image.length());
+	        index =  content.indexOf(image);
 	        if(index <0 || index >= content.length()){
 	        	edit_text.append(spannableString);  
             }else{  
             	edit_text.insert(index, spannableString);  
             }
+		}   
+		*/
+
+		while(content.indexOf("[0x64", index) >= 0){
+			index = content.indexOf("[0x64", index);
+			int start = index + 5;
+			int end = content.indexOf("]", start);
+			File root = this.getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+			String filePath = root.getAbsolutePath() + content.substring(start, end);
+			Log.d(TAG, "" + content.subSequence(index, end+1));
+			Log.d(TAG, "" + filePath);
+			Bitmap bitmap  = BitmapFactory.decodeFile(filePath);
+			//根据Bitmap对象创建ImageSpan对象  
+	        ImageSpan imageSpan = new ImageSpan(this.getContext(), bitmap);  
+	        //创建一个SpannableString对象，以便插入用ImageSpan对象封装的图像  
+	        SpannableString spannableString = new SpannableString(content.subSequence(index, end+1));  
+	        //  用ImageSpan对象替换face  
+	        spannableString.setSpan(imageSpan, 0, spannableString.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);  
+	        //将选择的图片追加到EditText中光标所在位置
+	        Editable edit_text = this.mContent.getEditableText();
+	        edit_text.delete(index, end+1);
+	        if(index <0 || index >= content.length()){  
+	        	edit_text.append(spannableString);  
+            }else{  
+            	edit_text.insert(index, spannableString);  
+            }
+	        index+=1;
 		}
+		
 	}
 
 	public int getContentLength(){

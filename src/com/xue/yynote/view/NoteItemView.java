@@ -6,7 +6,7 @@ import com.xue.yynote.model.NoteItemModel;
 import com.xue.yynote.model.ClockModel;
 import com.xue.yynote.tools.DBHelper;
 import com.xue.yynote.view.NotesListView;
-import com.xue.yynote.view.MainView;
+import com.xue.yynote.MainActivity;
 
 import android.util.Log;
 import android.view.View;
@@ -30,18 +30,20 @@ public class NoteItemView extends LinearLayout {
 	private TextView mModifyTime;
 	private Button mDelete;
 	private MainView mMainView;
+	private Button cancelButton;
 	
 	public NoteItemView(Context context){
 		super(context);
 		inflate(context, R.layout.activity_note_item, this);
 		this.initResource();
 	}
+	
 	public void initResource(){
 		this.mContent = (TextView)findViewById(R.id.note_item_content);
 		this.mClock = (ImageView)findViewById(R.id.note_item_clock);
 		this.mModifyTime = (TextView)findViewById(R.id.note_item_modify_time);
 		this.mDelete = (Button)findViewById(R.id.note_item_delete);		
-		this.mMainView = new MainView(this.getContext());
+		this.mMainView = ((MainActivity)this.getContext()).getMainView();
 	}
 	public void setModel(NoteItemModel itemModel){
 		this.mItemModel = itemModel;
@@ -69,6 +71,8 @@ public class NoteItemView extends LinearLayout {
 						NotesListView mListView = (NotesListView) NoteItemView.this.getParent();
 						mListView.setStatus(NotesListView.STATUS_DELETE);
 						mListView.refreshAdapter(NoteItemView.this.mItemModel.getId());
+						
+						hideDeleteCancelButton();
 					}
 				})
 				.setNegativeButton("取消",new DialogInterface.OnClickListener(){

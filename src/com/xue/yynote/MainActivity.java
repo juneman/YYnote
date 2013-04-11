@@ -31,7 +31,9 @@ public class MainActivity extends Activity {
 			 this.mMainView.refreshAdapter(bundle.getInt("NOTE_ID"));
 		 }
 	}
- 
+	public MainView getMainView(){
+		return this.mMainView;
+	}
 	protected void onPause(){
 		super.onPause();
 		this.mMainView.saveSequence();
