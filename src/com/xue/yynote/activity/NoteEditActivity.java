@@ -1,12 +1,20 @@
 package com.xue.yynote.activity;
 
+import com.xue.yynote.model.ClockModel;
+import com.xue.yynote.model.NoteItemModel;
+import com.xue.yynote.tools.DBHelper;
 import com.xue.yynote.view.NoteEditView;
+import com.xue.yynote.view.NoteItemView;
+import com.xue.yynote.view.NotesListView;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 import android.graphics.Bitmap; 
 import android.graphics.Matrix;
@@ -164,8 +172,26 @@ public class NoteEditActivity extends Activity{
 	} 
    
 	public void onBackPressed(){
-		
-    	super.onBackPressed();
+		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+		dialog.setMessage("是否保存修改")
+		.setTitle("提示")
+		.setPositiveButton("是", new DialogInterface.OnClickListener(){
+			public void onClick(DialogInterface dialog, int which) {  
+				mNoteEditView.finishEdit();
+				Bundle bundle = new Bundle(); 
+	    		bundle.putInt("NOTE_ID", mNoteEditView.getModelId());
+	    		NoteEditActivity.this.setResult(Activity.RESULT_OK, NoteEditActivity.this.getIntent().putExtras(bundle));
+	    		NoteEditActivity.this.finish();
+			}
+		})
+		.setNegativeButton("否",new DialogInterface.OnClickListener(){
+			public void onClick(DialogInterface dialog, int which) {  
+				//NoteEditActivity.super.onBackPressed();
+				NoteEditActivity.this.finish();
+			}
+		});
+		dialog.create().show();  
+		//super.onBackPressed();
 	}
 	
 }

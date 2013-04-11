@@ -57,7 +57,8 @@ public class MainActivity extends Activity {
 			mMainView.clearDeleteButton();
 			mMainView.hideDeleteCancelButton();
 		}
-		else
+		else{
 			super.onBackPressed();
+		}
 	}
 }

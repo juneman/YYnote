@@ -6,13 +6,19 @@ import com.xue.yynote.model.NoteItemModel;
 import com.xue.yynote.model.ClockModel;
 import com.xue.yynote.tools.DBHelper;
 import com.xue.yynote.view.NotesListView;
+import com.xue.yynote.view.MainView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.widget.TextView;
 import java.util.Date;
 import java.text.SimpleDateFormat; 
@@ -23,6 +29,7 @@ public class NoteItemView extends LinearLayout {
 	private ImageView mClock;
 	private TextView mModifyTime;
 	private Button mDelete;
+	private MainView mMainView;
 	
 	public NoteItemView(Context context){
 		super(context);
@@ -34,6 +41,7 @@ public class NoteItemView extends LinearLayout {
 		this.mClock = (ImageView)findViewById(R.id.note_item_clock);
 		this.mModifyTime = (TextView)findViewById(R.id.note_item_modify_time);
 		this.mDelete = (Button)findViewById(R.id.note_item_delete);		
+		this.mMainView = new MainView(this.getContext());
 	}
 	public void setModel(NoteItemModel itemModel){
 		this.mItemModel = itemModel;
@@ -46,17 +54,31 @@ public class NoteItemView extends LinearLayout {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				NoteItemView.this.mDelete.setVisibility(View.GONE);
-				DBHelper dbHelper = DBHelper.getInstance(NoteItemView.this.getContext());
-				dbHelper.delete(DBHelper.TABLE.ALERTS, 
-						ClockModel.ID + " = " + NoteItemView.this.mItemModel.getClockId(), null);
-				dbHelper.delete(DBHelper.TABLE.NOTES, 
-						NoteItemModel.ID + " = " + NoteItemView.this.mItemModel.getId(), null);
-				NotesListView mListView = (NotesListView) NoteItemView.this.getParent();
-				mListView.setStatus(NotesListView.STATUS_DELETE);
-				mListView.refreshAdapter(NoteItemView.this.mItemModel.getId());
-			}
-			
+				AlertDialog.Builder dialog = new AlertDialog.Builder(NoteItemView.this.getContext());
+				
+				dialog.setMessage("确定要删除")
+				.setTitle("删除提示")
+				.setPositiveButton("确定", new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog, int which) {  
+						NoteItemView.this.mDelete.setVisibility(View.GONE);
+						DBHelper dbHelper = DBHelper.getInstance(NoteItemView.this.getContext());
+						dbHelper.delete(DBHelper.TABLE.ALERTS, 
+								ClockModel.ID + " = " + NoteItemView.this.mItemModel.getClockId(), null);
+						dbHelper.delete(DBHelper.TABLE.NOTES, 
+								NoteItemModel.ID + " = " + NoteItemView.this.mItemModel.getId(), null);
+						NotesListView mListView = (NotesListView) NoteItemView.this.getParent();
+						mListView.setStatus(NotesListView.STATUS_DELETE);
+						mListView.refreshAdapter(NoteItemView.this.mItemModel.getId());
+					}
+				})
+				.setNegativeButton("取消",new DialogInterface.OnClickListener(){
+					public void onClick(DialogInterface dialog, int which) {  
+						hideDeleteButton();
+						hideDeleteCancelButton();
+					}
+				});
+				dialog.create().show();
+			}			
 		});
 	}
 	@SuppressWarnings("deprecation")
@@ -125,5 +147,8 @@ public class NoteItemView extends LinearLayout {
 		this.mDelete.setVisibility(View.GONE);
 		this.setClockTv();
 		this.mModifyTime.setVisibility(View.VISIBLE);
+	}
+	public void hideDeleteCancelButton(){
+		this.mMainView.hideDeleteCancelButton();
 	}
 }
