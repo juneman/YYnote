@@ -423,18 +423,15 @@ public class NoteEditView extends LinearLayout implements OnClickListener {
 				.getTimeInMillis()));
 
 		Intent intent = new Intent(this.getContext(), ClockReceiver.class);
-		Bundle bundle = new Bundle();
-		bundle.putInt("com.xue.yynote.NOTE_ID", this.mNoteItemModel.getId());
-		intent.putExtras(bundle);
-		Log.d(TAG, "" + this.mNoteItemModel.getId());
-		Log.d(TAG, "now   " + new Date().getTime());
-		Log.d(TAG, "setted " + mClockModel.getTimeInMillis());
+		intent.putExtra("com.xue.yynote.NOTE_ID", this.mNoteItemModel.getId());
+		Log.d(TAG, "NOTE_I: " + this.mNoteItemModel.getId());
 		// intent.setDataAndType(ContentUris.withAppendedId(Notes.CONTENT_NOTE_URI,
 		// mClockModel.getId()));
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(
 				this.getContext(), 0, intent, 0);
 		AlarmManager am = (AlarmManager) this.getContext().getSystemService(
 				Context.ALARM_SERVICE);
+		
 		// 设置闹钟
 		am.set(AlarmManager.RTC_WAKEUP, mClockModel.getTimeInMillis(),
 				pendingIntent);

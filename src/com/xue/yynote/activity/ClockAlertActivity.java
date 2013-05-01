@@ -21,6 +21,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.os.Vibrator;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.app.Activity;
@@ -52,10 +53,11 @@ public class ClockAlertActivity extends Activity implements OnClickListener,
 					| WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR);
 		}
 
-		Bundle bundle = this.getIntent().getExtras();
+		Intent intent = this.getIntent();
 
 		try {
-			mNoteId = bundle.getInt("com.xue.yynote.NOTE_ID");
+			mNoteId = intent.getIntExtra("com.xue.yynote.NOTE_ID", -1);
+			Log.d("ClockAlert", "note_id: " + mNoteId);
 			mNoteModel = new NoteItemModel(this, mNoteId);
 			mClockModel = this.mNoteModel.getClockModel();
 

@@ -16,6 +16,8 @@
         android:layout_height="0dip"
         android:layout_gravity="top"
         android:layout_weight="1"
+        android:listSelector="@null"
+        android:divider="@null"
         android:background="@null" >
         
     </com.xue.yynote.view.NotesListView>

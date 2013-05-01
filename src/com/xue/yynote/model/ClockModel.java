@@ -104,7 +104,7 @@ public class ClockModel {
 	}
 
 	public boolean isClockFinished() {
-		if (this.mAlertCount < this.mAlertTimes) {
+		if (this.mAlertCount <= this.mAlertTimes) {
 			return false;
 		} else
 			return true;

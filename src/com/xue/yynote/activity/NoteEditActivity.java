@@ -206,6 +206,14 @@ public class NoteEditActivity extends Activity {
 	}
 
 	public void onBackPressed() {
+		Bundle bundle = new Bundle();
+		bundle.putInt("NOTE_ID", mNoteEditView.getModelId());
+
+		NoteEditActivity.this.setResult(
+				Activity.RESULT_OK,
+				NoteEditActivity.this.getIntent()
+						.putExtras(bundle));
+		
 		if (this.mNoteEditView.getOriginalLen() != this.mNoteEditView
 				.getContentLength()) {
 			AlertDialog.Builder dialog = new AlertDialog.Builder(this);
@@ -216,13 +224,6 @@ public class NoteEditActivity extends Activity {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									mNoteEditView.finishEdit();
-									Bundle bundle = new Bundle();
-									bundle.putInt("NOTE_ID",
-											mNoteEditView.getModelId());
-									NoteEditActivity.this.setResult(
-											Activity.RESULT_OK,
-											NoteEditActivity.this.getIntent()
-													.putExtras(bundle));
 									NoteEditActivity.this.finish();
 								}
 							})

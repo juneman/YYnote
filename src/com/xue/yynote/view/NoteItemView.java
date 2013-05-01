@@ -66,8 +66,7 @@ public class NoteItemView extends LinearLayout {
 								new DialogInterface.OnClickListener() {
 									public void onClick(DialogInterface dialog,
 											int which) {
-										NoteItemView.this.mDelete
-												.setVisibility(View.GONE);
+										hideDeleteButton();
 										DBHelper dbHelper = DBHelper
 												.getInstance(NoteItemView.this
 														.getContext());
@@ -91,7 +90,7 @@ public class NoteItemView extends LinearLayout {
 										mListView
 												.refreshAdapter(NoteItemView.this.mItemModel
 														.getId());
-
+										
 										hideDeleteCancelButton();
 									}
 								})
