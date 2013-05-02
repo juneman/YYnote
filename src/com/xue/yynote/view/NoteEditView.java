@@ -450,9 +450,10 @@ public class NoteEditView extends LinearLayout implements OnClickListener {
 	protected void deleteClock() {
 		// TODO Auto-generated method stub
 		Intent intent = new Intent(this.getContext(), ClockReceiver.class);
-		Bundle bundle = new Bundle();
-		bundle.putInt("com.xuewish.xnotes.NOTE_ID", this.mNoteItemModel.getId());
-		intent.putExtras(bundle);
+		intent.setData(ContentUris.withAppendedId(Uri.parse("content://xue_yynote/note"), this.mNoteItemModel.getId()));
+		//Bundle bundle = new Bundle();
+		//bundle.putInt("com.xuewish.xnotes.NOTE_ID", this.mNoteItemModel.getId());
+		//intent.putExtras(bundle);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(
 				this.getContext(), 0, intent, 0);
 		// 获取系统进程

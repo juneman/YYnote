@@ -8,6 +8,7 @@ import com.xue.yynote.model.NoteItemModel;
 import com.xue.yynote.tools.DBHelper;
 import com.xue.yynote.activity.NoteEditActivity;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -74,7 +75,7 @@ public class ClockAlertActivity extends Activity implements OnClickListener,
 		mPlayer = new MediaPlayer();
 		this.mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 		this.showActionDialog();
-		this.playAlarmSound();
+	//	this.playAlarmSound();
 
 		this.mVibrator.vibrate(new long[] { 1000L, 1000L, 1000L, 1000L }, 0);
 
@@ -130,7 +131,7 @@ public class ClockAlertActivity extends Activity implements OnClickListener,
 			dialog.setNegativeButton(R.string.clock_dialog_known, null);
 		}
 		dialog.show().setOnDismissListener(this);
-		this.mClockModel.addAlertCount();
+	
 	}
 
 	public void onClick(DialogInterface dialog, int which) {
@@ -152,9 +153,10 @@ public class ClockAlertActivity extends Activity implements OnClickListener,
 
 	public void deleteClock() {
 		Intent intent = new Intent(this, ClockReceiver.class);
-		Bundle bundle = new Bundle();
-		bundle.putInt("com.xuewish.xnotes.NOTE_ID", this.mNoteModel.getId());
-		intent.putExtras(bundle);
+		intent.setData(ContentUris.withAppendedId(Uri.parse("content://xue_yynote/note"), this.mNoteModel.getId()));
+		//Bundle bundle = new Bundle();
+		//bundle.putInt("com.xuewish.xnotes.NOTE_ID", this.mNoteModel.getId());
+		//intent.putExtras(bundle);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,
 				intent, 0);
 		// 获取系统进程
@@ -174,9 +176,11 @@ public class ClockAlertActivity extends Activity implements OnClickListener,
 
 	public void onDismiss(DialogInterface dialog) {
 		stopAlarmSound();
-		this.mVibrator.cancel();
-		if (this.mClockModel.isClockFinished())
+		this.mVibrator.cancel();			
+		if (this.mClockModel.isClockFinished()){
 			this.deleteClock();
+		}else this.mClockModel.addAlertCount();
+		
 		finish();
 	}
 
