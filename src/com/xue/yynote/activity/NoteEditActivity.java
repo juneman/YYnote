@@ -121,7 +121,7 @@ public class NoteEditActivity extends Activity {
 	}
 
 	public void showBitmapImg(Bitmap bitmap) {
-		bitmap = resizeImage(bitmap, 300, 300);
+		bitmap = resizeImage(bitmap, 300, 200);
 		String filePath = this.savePicture(bitmap);
 		// 根据Bitmap对象创建ImageSpan对象
 		ImageSpan imageSpan = new ImageSpan(NoteEditActivity.this, bitmap);
