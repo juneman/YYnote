@@ -480,25 +480,21 @@ public class NoteEditView extends LinearLayout implements OnClickListener {
 	@SuppressWarnings("deprecation")
 	private CharSequence getFormatClockTime(long clockTime) {
 		// TODO Auto-generated method stub
-		Date dateClock = new Date(clockTime);
+		SimpleDateFormat formatter1 = new SimpleDateFormat ("yyyy/MM/dd");
+		SimpleDateFormat formatter2 = new SimpleDateFormat ("MM/dd");
+		SimpleDateFormat formatter3 = new SimpleDateFormat ("HH:mm");
 		Date dateNow = new Date();
+		Date dateClock = new Date(clockTime);
 		String format = "";
-		if (dateClock.getYear() > dateNow.getYear()) {
-			format += String.valueOf(dateClock.getYear()) + "-";
-			format += "" + (dateClock.getMonth() + 1) + "-"
-					+ dateClock.getDate();
-		} else if (dateClock.getMonth() > dateNow.getMonth()
-				|| dateClock.getDate() > dateNow.getDate())
-			format = "" + (dateClock.getMonth() + 1) + "-"
-					+ dateClock.getDate();
-		else if (dateClock.getMonth() == dateNow.getMonth()
-				&& dateClock.getDate() == dateNow.getDate())
-			format = "" + dateClock.getHours() + ":" + dateClock.getMinutes();
-		else {
-			if (dateClock.getYear() < dateNow.getYear())
-				format += String.valueOf(dateClock.getYear()) + "-";
-			format += "" + (dateClock.getMonth() + 1) + "-"
-					+ dateClock.getDate();
+		if((dateNow.getYear() == dateClock.getYear()) && (dateNow.getMonth() ==
+				dateClock.getMonth()) && (dateNow.getDate() == dateClock.getDate())){
+			format = formatter3.format(dateClock);
+		}
+		else if(dateNow.getYear() == dateClock.getYear()){
+			format = formatter2.format(dateClock);
+		}
+		else{
+			format = formatter1.format(dateClock);
 		}
 		return format;
 	}
