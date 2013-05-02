@@ -1,8 +1,5 @@
 package com.xue.yynote;
 
-import java.io.File;
-import java.io.IOException;
-
 import com.xue.yynote.view.MainView;
 import com.xue.yynote.tools.DBHelper;
 

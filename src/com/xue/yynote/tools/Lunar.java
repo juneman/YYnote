@@ -3,6 +3,7 @@ package com.xue.yynote.tools;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class Lunar {
 	private int year;
@@ -12,7 +13,7 @@ public class Lunar {
 	final static String chineseNumber[] = { "一", "二", "三", "四", "五", "六", "七",
 			"八", "九", "十", "十一", "十二" };
 	static SimpleDateFormat chineseDateFormat = new SimpleDateFormat(
-			"yyyy年MM月dd日");
+			"yyyy年MM月dd日", Locale.getDefault());
 	final static long[] lunarInfo = new long[] { 0x04bd8, 0x04ae0, 0x0a570,
 			0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2,
 			0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0,
@@ -108,7 +109,6 @@ public class Lunar {
 
 		// 求出和1900年1月31日相差的天数
 		int offset = (int) ((cal.getTime() - baseDate.getTime()) / 86400000L);
-		int monCyl = 14;
 
 		// 用offset减去每农历年的天数
 		// 计算当天是农历第几天
@@ -118,12 +118,10 @@ public class Lunar {
 		for (iYear = 1900; iYear < 2050 && offset > 0; iYear++) {
 			daysOfYear = yearDays(iYear);
 			offset -= daysOfYear;
-			monCyl += 12;
 		}
 		if (offset < 0) {
 			offset += daysOfYear;
 			iYear--;
-			monCyl -= 12;
 		}
 		// 农历年份
 		year = iYear;
@@ -146,8 +144,6 @@ public class Lunar {
 			// 解除闰月
 			if (leap && iMonth == (leapMonth + 1))
 				leap = false;
-			if (!leap)
-				monCyl++;
 		}
 		// offset为0时，并且刚才计算的月份是闰月，要校正
 		if (offset == 0 && leapMonth > 0 && iMonth == leapMonth + 1) {
@@ -156,14 +152,12 @@ public class Lunar {
 			} else {
 				leap = true;
 				--iMonth;
-				--monCyl;
 			}
 		}
 		// offset小于0时，也要校正
 		if (offset < 0) {
 			offset += daysOfMonth;
 			--iMonth;
-			--monCyl;
 		}
 		month = iMonth;
 		day = offset + 1;

@@ -1,12 +1,6 @@
 package com.xue.yynote.activity;
 
-import com.xue.yynote.model.ClockModel;
-import com.xue.yynote.model.NoteItemModel;
-import com.xue.yynote.tools.DBHelper;
 import com.xue.yynote.view.NoteEditView;
-import com.xue.yynote.view.NoteItemView;
-import com.xue.yynote.view.NotesListView;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -14,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;

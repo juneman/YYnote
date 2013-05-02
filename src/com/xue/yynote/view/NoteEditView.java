@@ -20,6 +20,7 @@ import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextWatcher;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.text.style.ImageSpan;
@@ -423,7 +424,8 @@ public class NoteEditView extends LinearLayout implements OnClickListener {
 				.getTimeInMillis()));
 
 		Intent intent = new Intent(this.getContext(), ClockReceiver.class);
-		intent.putExtra("com.xue.yynote.NOTE_ID", this.mNoteItemModel.getId());
+		intent.setData(ContentUris.withAppendedId(Uri.parse("content://xue_yynote/note"), this.mNoteItemModel.getId()));
+		//intent.putExtra("com.xue.yynote.NOTE_ID", this.mNoteItemModel.getId());
 		Log.d(TAG, "NOTE_I: " + this.mNoteItemModel.getId());
 		// intent.setDataAndType(ContentUris.withAppendedId(Notes.CONTENT_NOTE_URI,
 		// mClockModel.getId()));

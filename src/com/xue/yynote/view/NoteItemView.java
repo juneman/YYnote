@@ -7,19 +7,17 @@ import com.xue.yynote.tools.DBHelper;
 import com.xue.yynote.view.NotesListView;
 import com.xue.yynote.MainActivity;
 
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.widget.TextView;
 import java.util.Date;
+import java.util.Locale;
 import java.text.SimpleDateFormat;
 
 public class NoteItemView extends LinearLayout {
@@ -29,7 +27,6 @@ public class NoteItemView extends LinearLayout {
 	private TextView mModifyTime;
 	private Button mDelete;
 	private MainView mMainView;
-	private Button cancelButton;
 
 	public NoteItemView(Context context) {
 		super(context);
@@ -109,8 +106,8 @@ public class NoteItemView extends LinearLayout {
 
 	@SuppressWarnings("deprecation")
 	private CharSequence getFormatModifyTime(long time) {
-		SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd");
-		SimpleDateFormat formatter2 = new SimpleDateFormat("MM-dd");
+		//SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+		SimpleDateFormat formatter2 = new SimpleDateFormat("MM-dd", Locale.getDefault());
 		Date dateNow = new Date();
 		Date dateModify = new Date(time);
 		String format = "";
