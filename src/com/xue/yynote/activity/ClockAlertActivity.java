@@ -56,7 +56,7 @@ public class ClockAlertActivity extends Activity implements OnClickListener,
 		Intent intent = this.getIntent();
 
 		try {
-			mNoteId = intent.getIntExtra("com.xue.yynote.NOTE_ID", -1);
+			mNoteId = Integer.valueOf(intent.getData().getPathSegments().get(1));
 			Log.d("ClockAlert", "note_id: " + mNoteId);
 			mNoteModel = new NoteItemModel(this, mNoteId);
 			mClockModel = this.mNoteModel.getClockModel();
