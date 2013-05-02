@@ -199,13 +199,6 @@ public class NoteEditActivity extends Activity {
 	}
 
 	public void onBackPressed() {
-		Bundle bundle = new Bundle();
-		bundle.putInt("NOTE_ID", mNoteEditView.getModelId());
-
-		NoteEditActivity.this.setResult(
-				Activity.RESULT_OK,
-				NoteEditActivity.this.getIntent()
-						.putExtras(bundle));
 		
 		if (this.mNoteEditView.getOriginalLen() != this.mNoteEditView
 				.getContentLength()) {
@@ -217,6 +210,14 @@ public class NoteEditActivity extends Activity {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									mNoteEditView.finishEdit();
+									
+									Bundle bundle = new Bundle();
+									bundle.putInt("NOTE_ID", mNoteEditView.getModelId());
+							
+									NoteEditActivity.this.setResult(
+											Activity.RESULT_OK,
+											NoteEditActivity.this.getIntent()
+													.putExtras(bundle));
 									NoteEditActivity.this.finish();
 								}
 							})
@@ -225,6 +226,13 @@ public class NoteEditActivity extends Activity {
 								public void onClick(DialogInterface dialog,
 										int which) {
 									// NoteEditActivity.super.onBackPressed();
+									Bundle bundle = new Bundle();
+									bundle.putInt("NOTE_ID", mNoteEditView.getModelId());
+							
+									NoteEditActivity.this.setResult(
+											Activity.RESULT_OK,
+											NoteEditActivity.this.getIntent()
+													.putExtras(bundle));
 									NoteEditActivity.this.finish();
 								}
 							});
