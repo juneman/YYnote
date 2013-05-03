@@ -106,16 +106,15 @@ public class NoteItemView extends LinearLayout {
 
 	@SuppressWarnings("deprecation")
 	private CharSequence getFormatModifyTime(long time) {
-		//SimpleDateFormat formatter1 = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-		SimpleDateFormat formatter2 = new SimpleDateFormat("MM-dd", Locale.getDefault());
+		SimpleDateFormat formatter1 = new SimpleDateFormat("HH:mm", Locale.getDefault());
+		SimpleDateFormat formatter2 = new SimpleDateFormat("MM/dd", Locale.getDefault());
 		Date dateNow = new Date();
 		Date dateModify = new Date(time);
 		String format = "";
 		if ((dateNow.getYear() == dateModify.getYear())
 				&& (dateNow.getMonth() == dateModify.getMonth())
 				&& (dateNow.getDate() == dateModify.getDate())) {
-			format = "" + "今天 " + dateModify.getHours() + ":"
-					+ dateModify.getMinutes();
+			format = "" + "今天 " + formatter1.format(dateModify);
 		} else {
 			format = formatter2.format(dateModify);
 		}
