@@ -239,6 +239,14 @@ public class NoteEditActivity extends Activity {
 			dialog.create().show();
 			// super.onBackPressed();
 		} else {
+			Bundle bundle = new Bundle();
+			bundle.putInt("NOTE_ID", mNoteEditView.getModelId());
+	
+			NoteEditActivity.this.setResult(
+					Activity.RESULT_OK,
+					NoteEditActivity.this.getIntent()
+							.putExtras(bundle));
+			NoteEditActivity.this.finish();
 			super.onBackPressed();
 		}
 	}

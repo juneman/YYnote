@@ -75,7 +75,7 @@ public class ClockAlertActivity extends Activity implements OnClickListener,
 		mPlayer = new MediaPlayer();
 		this.mVibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 		this.showActionDialog();
-	//	this.playAlarmSound();
+		this.playAlarmSound();
 
 		this.mVibrator.vibrate(new long[] { 1000L, 1000L, 1000L, 1000L }, 0);
 

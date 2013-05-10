@@ -74,7 +74,6 @@ public class NoteEditView extends LinearLayout implements OnClickListener {
 		super(context);
 		inflate(context, R.layout.activity_note_edit, this);
 		this.initResource();
-
 	}
 
 	private void initResource() {
@@ -584,24 +583,6 @@ public class NoteEditView extends LinearLayout implements OnClickListener {
 		// TODO Auto-generated method stub
 		this.mContent.setText(content);
 		int index = 0;
-		/*
-		 * //图片路径数组 ArrayList<String> images = this.mNoteItemModel.getImages();
-		 * if(images.isEmpty()) return ; for(String image : images){ Bitmap
-		 * bitmap = this.mNoteItemModel.getBitmapByTag(image);
-		 * //根据Bitmap对象创建ImageSpan对象 ImageSpan imageSpan = new
-		 * ImageSpan(this.getContext(), bitmap);
-		 * //创建一个SpannableString对象，以便插入用ImageSpan对象封装的图像 SpannableString
-		 * spannableString = new SpannableString(image); // 用ImageSpan对象替换face
-		 * spannableString.setSpan(imageSpan, 0, spannableString.length(),
-		 * Spannable.SPAN_EXCLUSIVE_EXCLUSIVE); //将选择的图片追加到EditText中光标所在位置
-		 * Editable edit_text = this.mContent.getEditableText();
-		 * edit_text.delete(content.indexOf(image),
-		 * content.indexOf(image)+image.length()); index =
-		 * content.indexOf(image); if(index <0 || index >= content.length()){
-		 * edit_text.append(spannableString); }else{ edit_text.insert(index,
-		 * spannableString); } }
-		 */
-
 		while (content.indexOf("[0x64", index) >= 0) {
 			index = content.indexOf("[0x64", index);
 			int start = index + 5;
