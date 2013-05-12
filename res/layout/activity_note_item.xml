@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:layout_marginBottom="10dip"
-	android:background="#eee" >
+	android:background="#FFE283" >
     
 	<TextView
 	    android:id="@+id/note_item_content" 
@@ -30,15 +30,16 @@
          <ImageView
             android:id="@+id/note_item_clock"
             android:visibility="gone"
-            android:layout_width="26dp"
-            android:layout_height="18dp"		          
-            android:src="@drawable/clock2" />
+            android:layout_width="18dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="2dp"		          
+            android:src="@drawable/clock" />
         <TextView 
 		    android:id="@+id/note_item_modify_time"
 		   	android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
 		    android:textSize="13sp"
-		   android:textColor="#999" />	    
+		   android:textColor="#666" />	    
 		
 		<Button 
 		    android:id="@+id/note_item_delete"

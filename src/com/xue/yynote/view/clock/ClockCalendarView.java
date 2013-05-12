@@ -28,7 +28,7 @@ public class ClockCalendarView extends LinearLayout {
 	public static final String TAG = "ClockCalendarView";
 	public static final int daysOfMonth = 35;
 	public static final long dayOfMillisecond = 24 * 60 * 60 * 1000;
-	public static final int CURRENT_MONTH_BG = 0xFF7c8577;
+	public static final int CURRENT_MONTH_BG = 0xFFd0d0d0;
 	public static final int CURRENT_DAY_BG = 0xFFFFFFFF;
 	private final String[] monthName = this.getContext().getResources()
 			.getStringArray(R.array.clock_calendar_month);

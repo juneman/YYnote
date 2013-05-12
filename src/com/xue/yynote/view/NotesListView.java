@@ -69,9 +69,11 @@ public class NotesListView extends ListView {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
+				
 				NotesListView.this.status = STATUS_EDIT;
 				NoteItemView item = (NoteItemView) view;
 				NotesListView.this.mCurItem = item;
+				
 				Intent intent = new Intent(NotesListView.this.getContext(),
 						NoteEditActivity.class);
 				intent.putExtra("ID", item.getModelId());
